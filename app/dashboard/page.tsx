@@ -36,7 +36,7 @@ import { set } from "react-hook-form";
 interface Harvest {
   id: string;
   seedType: string;
-  location: number;
+  location: string;
   yield: number;
   fertilizer: string;
   quantity: number;
@@ -70,7 +70,7 @@ export default function DashboardPage() {
 
   const handleSubmit = async (data: any) => {
     if (formDialog.mode === "edit") {
-      await harvestsAPI.update(formDialog.harvest?.id, data);
+      await harvestsAPI.update(formDialog.harvest?.id as string, data);
     }
 
     if (formDialog.mode === "create") {
@@ -78,12 +78,12 @@ export default function DashboardPage() {
     }
 
     fetchHarvests();
-    setFormDialog(false);
+    setFormDialog(false as any);
   };
   const handleDelete = async () => {
     console.log(deleteDialog.harvest);
     if (deleteDialog.harvest) {
-      await harvestsAPI.delete(deleteDialog.harvest.id);
+      await harvestsAPI.delete(deleteDialog.harvest.id as string);
     }
     setDeleteDialog({ isOpen: false, harvest: null });
     fetchHarvests();

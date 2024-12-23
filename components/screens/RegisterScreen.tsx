@@ -55,7 +55,7 @@ export default function RegisterScreen({
       );
 
       setStatus("success");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       setError(error.response?.data?.message || "Ocorreu um erro.");
       setStatus("error");

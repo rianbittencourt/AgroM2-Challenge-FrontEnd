@@ -9,12 +9,9 @@ const api = axios.create({
 export const getAuthToken = async () => {
   const session = await getSession(); 
 
-  if (session && session.user.accessToken) {
-    return session.user.accessToken; 
-  }
-  return null;
-};
-
+  if (session && session.user && session.user.accessToken) {
+    return session.user.accessToken;
+  }}
 
 api.interceptors.request.use(
   async (config) => {
@@ -44,11 +41,11 @@ export const harvestsAPI = {
     const response = await api.post('/harvests', data);
     return response.data;
   },
-  update: async (id: number, data: any) => {
+  update: async (id: string, data: any) => {
     const response = await api.put(`/harvests/${id}`, data);
     return response.data;
   },
-  delete: async (id: number) => {
+  delete: async (id: string) => {
     const response = await api.delete(`/harvests/${id}`);
     return response.data;
   },
