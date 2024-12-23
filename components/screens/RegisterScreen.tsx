@@ -8,6 +8,22 @@ import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { z } from "zod";
+
+// Esquema Zod para validação do formulário
+const registerSchema = z
+  .object({
+    name: z.string().min(1, "O nome é obrigatório."),
+    email: z.string().email("Formato de email inválido."),
+    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
+    confirmPassword: z
+      .string()
+      .min(6, "A senha de confirmação deve ter pelo menos 6 caracteres."),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
+  });
 
 interface RegisterScreenProps {
   onScreenChange: (screen: "login" | "register") => void;
@@ -27,18 +43,17 @@ export default function RegisterScreen({
   });
   const [status, setStatus] = useState<"success" | "error" | null>(null);
 
-  useEffect(() => {
-    console.log("Status:", status);
-  }, [status]);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     setStatus(null);
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("As senhas não coincidem");
+    // Validação usando Zod
+    const validation = registerSchema.safeParse(formData);
+
+    if (!validation.success) {
+      setError(validation.error.errors[0].message);
       setLoading(false);
       return;
     }
@@ -134,7 +149,7 @@ export default function RegisterScreen({
                       })
                     }
                     name="confirmPassword"
-                    placeholder="Senha"
+                    placeholder="Confirme sua Senha"
                     className="pl-10"
                     required
                   />
@@ -146,7 +161,7 @@ export default function RegisterScreen({
             <>
               <div className="flex bg-blue-500/10 p-2 items-center justify-center py-2">
                 <h2 className="text-stone-500 font-bold">
-                  Usuario cadastrado com sucesso!
+                  Usuário cadastrado com sucesso!
                 </h2>
               </div>
             </>
