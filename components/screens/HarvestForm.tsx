@@ -13,13 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useState } from "react";
 
 const harvestFormSchema = z.object({
   seedType: z.string().min(1, "A cultura é obrigatória"),
@@ -43,6 +37,8 @@ export function HarvestForm({
   initialData,
   isEditing = false,
 }: HarvestFormProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<HarvestFormData>({
     resolver: zodResolver(harvestFormSchema),
     defaultValues: initialData || {
@@ -53,9 +49,18 @@ export function HarvestForm({
       date: new Date().toISOString().split("T")[0],
     },
   });
+
+  const handleSubmit = async (data: HarvestFormData) => {
+    setIsLoading(true);
+    try {
+      await onSubmit(data);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="seedType"
@@ -135,8 +140,12 @@ export function HarvestForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancelar
           </Button>
-          <Button type="submit" className="bg-green-700 hover:bg-green-800">
-            Salvar
+          <Button
+            type="submit"
+            className="bg-green-700 hover:bg-green-800"
+            disabled={isLoading}
+          >
+            {isLoading ? "Salvando..." : "Salvar"}
           </Button>
         </div>
       </form>

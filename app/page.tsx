@@ -60,29 +60,38 @@ export default function Home() {
   };
 
   const handleSubmit = async (data: any) => {
-    if (formDialog.mode === "edit") {
-      await harvestsAPI.update(formDialog.harvest?.id as string, data);
-    }
+    try {
+      if (formDialog.mode === "edit") {
+        await harvestsAPI.update(formDialog.harvest?.id as string, data);
+      }
 
-    if (formDialog.mode === "create") {
-      await harvestsAPI.create(data);
-    }
+      if (formDialog.mode === "create") {
+        await harvestsAPI.create(data);
+      }
 
-    fetchHarvests();
-    setFormDialog(false as any);
+      fetchHarvests();
+    } catch (error) {
+      console.error("Erro ao processar o formulário:", error);
+    } finally {
+      setFormDialog({ isOpen: false, mode: "create" });
+    }
   };
   const handleDelete = async () => {
-    console.log(deleteDialog.harvest);
-    if (deleteDialog.harvest) {
-      await harvestsAPI.delete(deleteDialog.harvest.id as string);
+    try {
+      if (deleteDialog.harvest) {
+        await harvestsAPI.delete(deleteDialog.harvest.id as string);
+        fetchHarvests();
+      }
+    } catch (error) {
+      console.error("Erro ao deletar a colheita:", error);
+    } finally {
     }
-    setDeleteDialog({ isOpen: false, harvest: null });
-    fetchHarvests();
   };
 
   useEffect(() => {
     fetchHarvests();
   }, []);
+
   const filteredHarvests = harvests.filter((harvest) => {
     const matchesSearch = harvest.seedType
       .toLowerCase()
