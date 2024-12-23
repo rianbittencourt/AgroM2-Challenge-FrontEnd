@@ -77,7 +77,7 @@ export function HarvestForm({
             <FormItem>
               <FormLabel>Local</FormLabel>
               <FormControl>
-                <Input placeholder="Ex: Soja" {...field} />
+                <Input placeholder="Ex: Rio de Janeiro" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
