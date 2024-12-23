@@ -46,7 +46,7 @@ export default function RegisterScreen({
     try {
       const { name, email, password } = formData;
       const response = await axios.post(
-        `https://agro-m2-challenge-backend.vercel.app/auth/register`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`,
         {
           name,
           email,
@@ -67,14 +67,8 @@ export default function RegisterScreen({
   return (
     <>
       <CardHeader className="space-y-4 flex flex-col items-center">
-        <div className="w-32 h-32 relative">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            fill
-            className="object-contain"
-            priority
-          />
+        <div className="text-center font-bold text-4xl pb-12 text-green-700 relative">
+          AgroM2
         </div>
         <CardTitle className="text-2xl font-bold text-green-800">
           Cadastre-se

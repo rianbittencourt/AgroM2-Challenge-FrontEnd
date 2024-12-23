@@ -66,7 +66,6 @@ export default function DashboardPage() {
   const fetchHarvests = async () => {
     const response = await harvestsAPI.getAll();
     setHarvests(response);
-    console.log(response);
   };
 
   const handleSubmit = async (data: any) => {
@@ -80,7 +79,6 @@ export default function DashboardPage() {
 
     fetchHarvests();
     setFormDialog(false);
-    console.log(response);
   };
   const handleDelete = async () => {
     console.log(deleteDialog.harvest);
@@ -127,6 +125,12 @@ export default function DashboardPage() {
           >
             <Plus className="mr-2 h-4 w-4" />
             Nova Colheita
+          </Button>
+          <Button
+            onClick={() => signOut()}
+            className="bg-red-500 hover:bg-red-600"
+          >
+            Sair
           </Button>
         </div>
       </div>
@@ -217,7 +221,7 @@ export default function DashboardPage() {
         isOpen={deleteDialog.isOpen}
         onClose={() => setDeleteDialog({ isOpen: false, harvest: null })}
         onConfirm={handleDelete}
-        itemName={deleteDialog.harvest?.crop || ""}
+        itemName={deleteDialog.harvest?.seedType || ""}
       />
     </div>
   );

@@ -3,12 +3,12 @@ export default function Home() {
     <div
       style={{
         maxWidth: 1280,
-        margin: '0 auto',
-        padding: '2rem',
-        textAlign: 'center',
+        margin: "0 auto",
+        padding: "2rem",
+        textAlign: "center",
       }}
     >
-      Start prompting.
+      <h1>Home</h1>
     </div>
   );
 }
