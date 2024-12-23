@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, User } from "lucide-react";
 import { CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -81,7 +81,7 @@ export default function RegisterScreen({
             <>
               <div className="space-y-2">
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
                     type="text"
                     name="name"
