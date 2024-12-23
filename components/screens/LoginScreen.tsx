@@ -33,7 +33,7 @@ export default function LoginScreen() {
       if (result?.error) {
         setError("Credenciais inválidas");
       } else {
-        router.push("/dashboard");
+        router.push("/");
       }
     } catch (error) {
       setError("Ocorreu um erro ao fazer login");
