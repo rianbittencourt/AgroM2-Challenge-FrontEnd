@@ -108,9 +108,9 @@ export function HarvestForm({
           name="fertilizer"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cultura</FormLabel>
+              <FormLabel>Fertilizante</FormLabel>
               <FormControl>
-                <Input placeholder="Ex: Soja" {...field} />
+                <Input placeholder="Ex: Composto Orgânico" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
