@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, EyeIcon, EyeOffIcon } from "lucide-react";
 import { CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -13,6 +13,11 @@ export default function LoginScreen() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,12 +75,25 @@ export default function LoginScreen() {
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Senha"
                 className="pl-10"
                 required
               />
+              <div>
+                {showPassword ? (
+                  <EyeIcon
+                    className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <EyeOffIcon
+                    className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+              </div>
             </div>
           </div>
           {error && <p className="text-sm text-red-500 text-center">{error}</p>}

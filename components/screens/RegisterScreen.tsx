@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Mail, Lock, Loader2, User } from "lucide-react";
+import { Mail, Lock, Loader2, User, EyeIcon, EyeOffIcon } from "lucide-react";
 import { CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { z } from "zod";
@@ -42,6 +42,16 @@ export default function RegisterScreen({
     confirmPassword: "",
   });
   const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showconfirmPassword, setShowconfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleconfirmPasswordVisibility = () => {
+    setShowconfirmPassword(!showconfirmPassword);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -126,7 +136,7 @@ export default function RegisterScreen({
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Senha"
                     onChange={(e) =>
@@ -135,13 +145,26 @@ export default function RegisterScreen({
                     className="pl-10"
                     required
                   />
+                  <div>
+                    {showPassword ? (
+                      <EyeIcon
+                        className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    ) : (
+                      <EyeOffIcon
+                        className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
-                    type="password"
+                    type={showconfirmPassword ? "text" : "password"}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -153,6 +176,19 @@ export default function RegisterScreen({
                     className="pl-10"
                     required
                   />
+                  <div>
+                    {showconfirmPassword ? (
+                      <EyeIcon
+                        className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                        onClick={toggleconfirmPasswordVisibility}
+                      />
+                    ) : (
+                      <EyeOffIcon
+                        className="absolute right-3 top-3 h-5 w-5 text-gray-400 cursor-pointer"
+                        onClick={toggleconfirmPasswordVisibility}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </>
